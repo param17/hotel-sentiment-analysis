@@ -1,0 +1,60 @@
+\documentclass[addpoints,12pt]{exam}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\Set}[1]{\big\{ #1 \big\}}
+\usepackage{color}
+\usepackage{xcolor,pgf,tikz,pgflibraryarrows,pgffor,pgflibrarysnakes}
+
+\usetikzlibrary{fit} % fitting shapes to coordinates
+\usetikzlibrary{backgrounds} % drawing the background after the foreground
+
+\usepgflibrary{shapes}
+\usetikzlibrary{snakes,automata}
+
+
+\tikzstyle{background}=[rectangle,fill=gray!10, inner sep=0.1cm, rounded corners=0mm]
+
+\usepackage{tikz}
+\tikzstyle{nloc}=[draw, text badly centered, rectangle, rounded corners, minimum size=2em,inner sep=0.5em]
+\tikzstyle{loc}=[draw,rectangle,minimum size=1.4em,inner sep=0em]
+\tikzstyle{trans}=[-latex, rounded corners]
+\tikzstyle{trans2}=[-latex, dashed, rounded corners]
+
+\newcommand{\Aa}{\mathcal{A}}
+
+
+\title{CSCI 5832: Natural Language Processing\\Assignment 3: Text classification}
+\date{Assignment Report}
+\author{Paramjot Singh}
+\begin{document}
+\maketitle
+
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheader{CSCI 5832X (Fall 2017)}{Assignment 2}{\today}
+\runningheader{CSCI 5832: Assignment 2}
+              {}
+              {Name: Paramjot Singh}
+              \firstpagefooter{}{}{}
+              \runningfooter{}{}{}
+\textbf{Introduction}\\
+I used pure python implementation for this assignment. Since, data set wasn't large enough for using other mechanisms, and Naive-Bayes was already coming pretty accurate. 
+So starting with the implementation decisions. Similar to previous assignment, I split the data based on Pareto principle. 80\% for Training set(150 reviews) and 20\% for Dev set(40 reviews) and tried cross validation later on to check the accuracy.
+\\ \\
+\textbf{Segmentation}\\
+While creating the dictionary for positive and negative reviews, I removed occurences of punctuations (wife, -$>$ wife) and converted them to lower case and did split by spaces. I know this won't help much while calculating accuracy, but it will help in reducing size of vocabulary and also will help in removing high frequency words.
+After calculating the word frequency dict for positive and negative category. I clipped on the high frequency($>$100) and single occurence words. This removed words like 'the', 'and', 'a', 'was', etc which don't help in sentiment analysis.\\ \\
+\textbf{Naive-Bayes and Add-one Smoothing}\\
+For the main text analysis, I calculated the probability against words in both category by using Naive-Bayes with add one smoothing. To avoid underflow, I converted the probabilities to log and add them up. I skipped the Prior while calculation (since it's same for both i.e. 0.5 or log(0.5)). After the probability calculation, compared the prob for both categories and saved value for higher number. 
+Tried the code and it worked with accuracy of approx 92\%. Although removing high frequency words didn't help much (probability was almost similar), but still kept the piece of code.On trying with different test data inputs, code gave accuracy values from 90 - 95\%.\\ \\
+\textbf{Observations and Conclusion}\\
+So based on final counts the accuracy is coming around 92\% (average).
+Hoping to see good number with the final test data !
+
+
+
+\end{document}
+
